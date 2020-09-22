@@ -1,4 +1,8 @@
-import { calculateMeleeDamage, MeleeWeapon } from "./calculate";
+import {
+  calculateMeleeDamage,
+  MeleeWeapon,
+  calculateDamagePerLevel,
+} from "./calculate";
 import gear from "./gear.json";
 
 function test() {
@@ -19,8 +23,8 @@ function test() {
     );
   }
 
-  // Decimate
   {
+    // Decimate
     const damageResult = calculateMeleeDamage({
       strengthBonus: 196,
       strengthLevel: 99,
@@ -40,6 +44,16 @@ function test() {
           .join("\n\t")
     );
     console.log("\tAbility multiplier with P6E4", abilityMultiplier);
+
+    {
+      // Damage per level
+      const { min, max } = calculateDamagePerLevel(99, 100, true);
+      // p6 min is 4 + 0.015*6*8 = 4.72
+      // e4 min is 4.72 + (8 - 4.72)*0.12 = 5.1136
+      // e4 max is 8 - (8 - 4.72)*0.04 = 7.8688
+      console.log("Damage per level\n\tExpected: ", 5.1136, 7.8688);
+      console.log("\tActual: ", min, max);
+    }
   }
 }
 
@@ -80,23 +94,22 @@ function overload() {
     console.log(
       `Damage with ${overload.name} (+${overload.boost}) : ${damageResult.result}`
     );
-    const damagePerLevel = overload.boost * 8; //FIXME: Apply p6E4. Range is (4-8).
-    console.log("\tAbility damage gets +" + damagePerLevel);
+    const damagePerLevel = calculateDamagePerLevel(99, 99 + overload.boost, false).max;
+    console.log("\tAbility damage gets (P6E4) +" + damagePerLevel);
 
     const decimateMaxHit = Math.floor(
       damageResult.result * testAbility + damagePerLevel
     );
     console.log(`\tMax hit: ${decimateMaxHit}`);
+
+    const damagePerLevelP6E4 = calculateDamagePerLevel(99, 99 + overload.boost, false).max;
     const decimateMaxHitP6E4 = Math.floor(
       damageResult.result * (testAbility * precise6equilibrium4Multiplier) +
-        damagePerLevel
+      damagePerLevelP6E4
     );
     console.log(`\tMax hit (P6E4): ${decimateMaxHitP6E4}`);
 
-    const berserkCrit = Math.min(
-      12000,
-      Math.floor(decimateMaxHitP6E4 * 2)
-    ); // Crit damage cap is 12k
+    const berserkCrit = Math.min(12000, Math.floor(decimateMaxHitP6E4 * 2)); // Crit damage cap is 12k
     console.log(`\tBerserk max hit (P6E4): ${berserkCrit}`);
 
     for (const prayer of prayers) {
@@ -119,7 +132,7 @@ interface AbilityDamageMaxHits {
   berserkerAuraDamage: number;
   damagePerLevel: number;
   berserkerMaxHit: number;
-  berserkerMaxHitEq4: number;
+  berserkerMaxHitP6E4: number;
   berserkerBerserkMaxHitEq4: number;
   berserkerBerserkMaxHitEq4Turmoil: number;
   berserkerBerserkMaxHitEq4Malevolence: number;
@@ -136,7 +149,7 @@ function overloadAndBerserker(
     berserkerBerserkMaxHitEq4Malevolence: NaN,
     berserkerBerserkMaxHitEq4Turmoil: NaN,
     berserkerMaxHit: NaN,
-    berserkerMaxHitEq4: NaN,
+    berserkerMaxHitP6E4: NaN,
   };
 
   const damageResult = calculateMeleeDamage({
@@ -151,14 +164,12 @@ function overloadAndBerserker(
   );
   result.berserkerAuraDamage = damageResult.result;
 
-  const damagePerLevel = (overload.level - 99) * 8; // is it -99 at level 99, or is it -98? Because it seems always to have +8 at no boost.
-  const damagePerLevelRange =
-    damagePerLevel - (overload.level - 99) * 4; // min-hit is boosted 4. FIXME: Apply P6 to this
-  const damagePerLevelEq4 =
-    damagePerLevel - damagePerLevelRange * 0.04;
+  const playerStrengthLevel = 99; // Assuming we only do 99 str. If not, the `overload.levels` needs to be calculated again.
+  const damagePerLevel = calculateDamagePerLevel(playerStrengthLevel, overload.level, false).max;
+  const damagePerLevelP6E4 = calculateDamagePerLevel(playerStrengthLevel, overload.level, true).max;
 
   console.log("\tAbility damage gets +" + damagePerLevel);
-  console.log("\tAbility damage with Eq4 gets +" + damagePerLevelEq4);
+  console.log("\tAbility damage with P6E4 gets +" + damagePerLevelP6E4);
   result.damagePerLevel = damagePerLevel;
 
   const berserkerAuraMultiplier = 1.1;
@@ -171,17 +182,18 @@ function overloadAndBerserker(
 
   const decimateMaxHitEquilibrium4 = Math.floor(
     (damageResult.result * (testAbility * precise6equilibrium4Multiplier) +
-      damagePerLevelEq4) *
+      damagePerLevelP6E4) *
       berserkerAuraMultiplier
   );
   console.log(`\tMax hit (Eq4): ${decimateMaxHitEquilibrium4}`);
-  result.berserkerMaxHitEq4 = decimateMaxHitEquilibrium4;
+  result.berserkerMaxHitP6E4 = decimateMaxHitEquilibrium4;
 
+  const critCap = 12000; // FIXME: Differs with Erethdor's grimoire
   const berserkCrit = Math.min(
-    12000,
+    critCap,
     Math.floor(
       (damageResult.result * (testAbility * precise6equilibrium4Multiplier) +
-        damagePerLevelEq4) *
+        damagePerLevelP6E4) *
         2
     )
   ); // Crit damage cap is 12k
@@ -189,14 +201,15 @@ function overloadAndBerserker(
   result.berserkerBerserkMaxHitEq4 = berserkCrit;
 
   const berserkMultiplier = 2;
-  const critCap = 12000; // FIXME: Differs with Erethdor's grimoire
   const berserkCritWithoutAbilityBoost =
-    damageResult.result * (testAbility * precise6equilibrium4Multiplier) * berserkMultiplier;
+    damageResult.result *
+    (testAbility * precise6equilibrium4Multiplier) *
+    berserkMultiplier;
   const turmoilHit = Math.floor(
     Math.min(
       critCap,
       berserkCritWithoutAbilityBoost * (1 + gear.prayers.turmoil.damageBoost) +
-      berserkMultiplier * damagePerLevelEq4 // all boosts expect prayer affect abilityDamageBoostEq4
+        berserkMultiplier * damagePerLevelP6E4 // all boosts expect prayer affect abilityDamageBoostEq4
     )
   );
   console.log(`\tBerserker berserk turmoil max hit (Eq4): ${turmoilHit}`);
@@ -207,7 +220,7 @@ function overloadAndBerserker(
       critCap,
       berserkCritWithoutAbilityBoost *
         (1 + gear.prayers.malevolence.damageBoost) +
-        berserkMultiplier * damagePerLevelEq4 // all boosts expect prayer affect abilityDamageBoostEq4
+        berserkMultiplier * damagePerLevelP6E4 // all boosts expect prayer affect abilityDamageBoostEq4
     )
   );
   console.log(
@@ -225,9 +238,9 @@ console.log("--------");
 
 const offHands: Array<WeaponName> = [
   "Off-hand drygore mace",
-  //  "Off-hand drygore rapier",
+  //  "Off-hand drygore rapier", // no need to test. It's exactly the same as mace. Affinity/style is the only difference
 ];
-// Assuming lvl 99
+// Assuming lvl 99 str
 const overloads: Overload[] = [
   { name: "None", level: 108 },
   { name: "Overload", level: 126 },
