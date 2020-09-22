@@ -104,7 +104,8 @@ function _calculateDualWield(
     }
   }
 
-  const resultingDamage = Math.floor(mainHandDamage) + Math.floor(offHandDamage);
+  const resultingDamage =
+    Math.floor(mainHandDamage) + Math.floor(offHandDamage);
 
   const formulas = [{ name: "Main-hand", value: formula }];
   if (offHandFormula) {
@@ -138,4 +139,44 @@ function _verifyFormula(formula: string): void {
 
 function speedModifier(modifier: "average" | "fast" | "fastest"): number {
   return speedModifiers[modifier];
+}
+
+/**
+ * Calculate the damage range from being above the normal level.
+ * Returns min and max as flat ability damage.
+ *
+ * @param originalLevel What the player normally is
+ * @param boostedLevel The current level after boosts are applied
+ * @param useP6E4 if Precise 6 and Equilibrium 4 perks are used
+ */
+export function calculateDamagePerLevel(
+  originalLevel: number,
+  boostedLevel: number,
+  useP6E4: boolean
+): { min: number; max: number } {
+  const preciseBoost = useP6E4 ? 0.015 * 6 : 0;
+  const equilibriumMaxBoost = useP6E4 ? 0.01 * 4 : 0;
+  const equilibriumMinBoost = useP6E4 ? 0.03 * 4 : 0;
+  const rangeMaxPerLevel = 8;
+  const rangeMinPerLevel = 4;
+
+  const numberOfLevelsToBoost = boostedLevel - originalLevel;
+
+  const damagePerLevel = numberOfLevelsToBoost * rangeMaxPerLevel;
+
+  const damagePerLevelP6MinBoost = damagePerLevel * preciseBoost;
+  const damagePerLevelMinP6 =
+    numberOfLevelsToBoost * rangeMinPerLevel + damagePerLevelP6MinBoost;
+
+  const damagePerLevelRangeP6 = damagePerLevel - damagePerLevelMinP6;
+  const damagePerLevelMinE4Boost = damagePerLevelRangeP6 * equilibriumMinBoost;
+  const damagePerLevelMinP6E4 = damagePerLevelMinP6 + damagePerLevelMinE4Boost;
+
+  const damagePerLevelMaxE4Boost = damagePerLevelRangeP6 * equilibriumMaxBoost;
+  const damagePerLevelP6E4 = damagePerLevel - damagePerLevelMaxE4Boost;
+
+  return {
+    min: damagePerLevelMinP6E4,
+    max: damagePerLevelP6E4,
+  };
 }
