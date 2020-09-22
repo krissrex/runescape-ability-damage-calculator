@@ -134,7 +134,7 @@ Damage with Berserker aura and Elder overload (level 130) : 2077
 * Even if armour has decimal values (like my gear with `160.7` strength bonus), it seems the decimal is not used.
   * Alternatively, I have a bug in my code.
 * Somewhere, some rounding/flooring might be missing. Or I use too many decimals (jagex seems to prefer 1 decimal). Some results are 1 off.
-* I have not verified overload bonus ability damage yet, caused by the supposed `8*levels`. It might be affected by P6E4. So far I only assumed it was affected by E4.
+* `Most Worry mod: the overload range is affected by both precise and equil` ~~I have not verified overload bonus ability damage yet, caused by the supposed `8*levels`. It might be affected by P6E4. So far I only assumed it was affected by E4.~~
 * Most abilities are 1:5 of min:max hit. Using this calculator with an ability that is not, will fail, unless P6E4 multiplier is re-calculated.
-* It is not clear from the wiki if the *ability damage boost* from overloads is doubled from `berserk` or +10% from `berserker aura`.
-  * The ability damage boost is `8 * levels-above-your-actual-level`. Berserker aura makes you 9 levels up, and elder overload makes you 21 levels up.
+* `Most Worry mod: this is usually called "damage per level" and isn't unique to overloads. and yes berserk doubles that` ~~It is not clear from the wiki if the *ability damage boost* from overloads is doubled from `berserk` or +10% from `berserker aura`.~~
+  * The ~~ability damage boost~~ *damage per level* is `8 * levels-above-your-actual-level`. Berserker aura makes you 9 levels up, and elder overload makes you 21 levels up.

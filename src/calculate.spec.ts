@@ -80,16 +80,16 @@ function overload() {
     console.log(
       `Damage with ${overload.name} (+${overload.boost}) : ${damageResult.result}`
     );
-    const abilityDamageBoost = overload.boost * 8; //Is this affected by P6E4? Range is (4-8).
-    console.log("\tAbility damage gets +" + abilityDamageBoost);
+    const damagePerLevel = overload.boost * 8; //FIXME: Apply p6E4. Range is (4-8).
+    console.log("\tAbility damage gets +" + damagePerLevel);
 
     const decimateMaxHit = Math.floor(
-      damageResult.result * testAbility + abilityDamageBoost
+      damageResult.result * testAbility + damagePerLevel
     );
     console.log(`\tMax hit: ${decimateMaxHit}`);
     const decimateMaxHitP6E4 = Math.floor(
       damageResult.result * (testAbility * precise6equilibrium4Multiplier) +
-        abilityDamageBoost
+        damagePerLevel
     );
     console.log(`\tMax hit (P6E4): ${decimateMaxHitP6E4}`);
 
@@ -117,7 +117,7 @@ interface Overload {
 
 interface AbilityDamageMaxHits {
   berserkerAuraDamage: number;
-  abilityDamageBoost: number;
+  damagePerLevel: number;
   berserkerMaxHit: number;
   berserkerMaxHitEq4: number;
   berserkerBerserkMaxHitEq4: number;
@@ -130,7 +130,7 @@ function overloadAndBerserker(
   offHand: WeaponName
 ): AbilityDamageMaxHits {
   const result: AbilityDamageMaxHits = {
-    abilityDamageBoost: NaN,
+    damagePerLevel: NaN,
     berserkerAuraDamage: NaN,
     berserkerBerserkMaxHitEq4: NaN,
     berserkerBerserkMaxHitEq4Malevolence: NaN,
@@ -151,19 +151,19 @@ function overloadAndBerserker(
   );
   result.berserkerAuraDamage = damageResult.result;
 
-  const abilityDamageBoost = (overload.level - 99) * 8; // is it -99 at level 99, or is it -98? Because it seems always to have +8 at no boost.
-  const abilityDamageBoostRange =
-    abilityDamageBoost - (overload.level - 99) * 4; // min-hit is boosted 4. FIXME: Is this min-hit affected by P6?
-  const abilityDamageBoostEq4 =
-    abilityDamageBoost - abilityDamageBoostRange * 0.04;
+  const damagePerLevel = (overload.level - 99) * 8; // is it -99 at level 99, or is it -98? Because it seems always to have +8 at no boost.
+  const damagePerLevelRange =
+    damagePerLevel - (overload.level - 99) * 4; // min-hit is boosted 4. FIXME: Apply P6 to this
+  const damagePerLevelEq4 =
+    damagePerLevel - damagePerLevelRange * 0.04;
 
-  console.log("\tAbility damage gets +" + abilityDamageBoost);
-  console.log("\tAbility damage with Eq4 gets +" + abilityDamageBoostEq4);
-  result.abilityDamageBoost = abilityDamageBoost;
+  console.log("\tAbility damage gets +" + damagePerLevel);
+  console.log("\tAbility damage with Eq4 gets +" + damagePerLevelEq4);
+  result.damagePerLevel = damagePerLevel;
 
   const berserkerAuraMultiplier = 1.1;
   const decimateMaxHit = Math.floor(
-    (damageResult.result * testAbility + abilityDamageBoost) *
+    (damageResult.result * testAbility + damagePerLevel) *
       berserkerAuraMultiplier
   ); // When not using Berserk, the berserker aura boosts 10%. It is not applied when using berserk.
   console.log(`\tBerserker Max hit: ${decimateMaxHit}`);
@@ -171,7 +171,7 @@ function overloadAndBerserker(
 
   const decimateMaxHitEquilibrium4 = Math.floor(
     (damageResult.result * (testAbility * precise6equilibrium4Multiplier) +
-      abilityDamageBoostEq4) *
+      damagePerLevelEq4) *
       berserkerAuraMultiplier
   );
   console.log(`\tMax hit (Eq4): ${decimateMaxHitEquilibrium4}`);
@@ -181,20 +181,22 @@ function overloadAndBerserker(
     12000,
     Math.floor(
       (damageResult.result * (testAbility * precise6equilibrium4Multiplier) +
-        abilityDamageBoostEq4) *
+        damagePerLevelEq4) *
         2
     )
   ); // Crit damage cap is 12k
   console.log(`\tBerserker berserk max hit (Eq4): ${berserkCrit}`);
   result.berserkerBerserkMaxHitEq4 = berserkCrit;
 
+  const berserkMultiplier = 2;
+  const critCap = 12000; // FIXME: Differs with Erethdor's grimoire
   const berserkCritWithoutAbilityBoost =
-    damageResult.result * (testAbility * precise6equilibrium4Multiplier) * 2;
+    damageResult.result * (testAbility * precise6equilibrium4Multiplier) * berserkMultiplier;
   const turmoilHit = Math.floor(
     Math.min(
-      12000,
+      critCap,
       berserkCritWithoutAbilityBoost * (1 + gear.prayers.turmoil.damageBoost) +
-        2 * abilityDamageBoostEq4 //not 100% sure on berserk 2* on abilityDamageBoostEq4
+      berserkMultiplier * damagePerLevelEq4 // all boosts expect prayer affect abilityDamageBoostEq4
     )
   );
   console.log(`\tBerserker berserk turmoil max hit (Eq4): ${turmoilHit}`);
@@ -202,10 +204,10 @@ function overloadAndBerserker(
 
   const malevolenceHit = Math.floor(
     Math.min(
-      12000,
+      critCap,
       berserkCritWithoutAbilityBoost *
         (1 + gear.prayers.malevolence.damageBoost) +
-        2 * abilityDamageBoostEq4 //not 100% sure on berserk 2* on abilityDamageBoostEq4
+        berserkMultiplier * damagePerLevelEq4 // all boosts expect prayer affect abilityDamageBoostEq4
     )
   );
   console.log(
