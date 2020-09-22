@@ -133,9 +133,9 @@ interface AbilityDamageMaxHits {
   damagePerLevel: number;
   berserkerMaxHit: number;
   berserkerMaxHitP6E4: number;
-  berserkerBerserkMaxHitEq4: number;
-  berserkerBerserkMaxHitEq4Turmoil: number;
-  berserkerBerserkMaxHitEq4Malevolence: number;
+  berserkerBerserkMaxHitP6E4: number;
+  berserkerBerserkMaxHitP6E4Turmoil: number;
+  berserkerBerserkMaxHitP6E4Malevolence: number;
 }
 
 function overloadAndBerserker(
@@ -145,9 +145,9 @@ function overloadAndBerserker(
   const result: AbilityDamageMaxHits = {
     damagePerLevel: NaN,
     berserkerAuraDamage: NaN,
-    berserkerBerserkMaxHitEq4: NaN,
-    berserkerBerserkMaxHitEq4Malevolence: NaN,
-    berserkerBerserkMaxHitEq4Turmoil: NaN,
+    berserkerBerserkMaxHitP6E4: NaN,
+    berserkerBerserkMaxHitP6E4Malevolence: NaN,
+    berserkerBerserkMaxHitP6E4Turmoil: NaN,
     berserkerMaxHit: NaN,
     berserkerMaxHitP6E4: NaN,
   };
@@ -198,7 +198,7 @@ function overloadAndBerserker(
     )
   ); // Crit damage cap is 12k
   console.log(`\tBerserker berserk max hit (Eq4): ${berserkCrit}`);
-  result.berserkerBerserkMaxHitEq4 = berserkCrit;
+  result.berserkerBerserkMaxHitP6E4 = berserkCrit;
 
   const berserkMultiplier = 2;
   const berserkCritWithoutAbilityBoost =
@@ -213,7 +213,7 @@ function overloadAndBerserker(
     )
   );
   console.log(`\tBerserker berserk turmoil max hit (Eq4): ${turmoilHit}`);
-  result.berserkerBerserkMaxHitEq4Turmoil = turmoilHit;
+  result.berserkerBerserkMaxHitP6E4Turmoil = turmoilHit;
 
   const malevolenceHit = Math.floor(
     Math.min(
@@ -226,7 +226,7 @@ function overloadAndBerserker(
   console.log(
     `\tBerserker berserk malevolence max hit (Eq4): ${malevolenceHit}`
   );
-  result.berserkerBerserkMaxHitEq4Malevolence = malevolenceHit;
+  result.berserkerBerserkMaxHitP6E4Malevolence = malevolenceHit;
 
   return result;
 }
