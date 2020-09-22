@@ -188,19 +188,19 @@ function overloadAndBerserker(
   console.log(`\tMax hit (Eq4): ${decimateMaxHitEquilibrium4}`);
   result.berserkerMaxHitP6E4 = decimateMaxHitEquilibrium4;
 
-  const critCap = 12000; // FIXME: Differs with Erethdor's grimoire
+  const critCap = 12000; // Crit damage cap is 12k. FIXME: Differs with Erethdor's grimoire
+  const berserkMultiplier = 2;
   const berserkCrit = Math.min(
     critCap,
     Math.floor(
       (damageResult.result * (testAbility * precise6equilibrium4Multiplier) +
         damagePerLevelP6E4) *
-        2
+        berserkMultiplier
     )
-  ); // Crit damage cap is 12k
-  console.log(`\tBerserker berserk max hit (Eq4): ${berserkCrit}`);
+  ); 
+  console.log(`\tBerserker berserk max hit (P6E4): ${berserkCrit}`);
   result.berserkerBerserkMaxHitP6E4 = berserkCrit;
 
-  const berserkMultiplier = 2;
   const berserkCritWithoutAbilityBoost =
     damageResult.result *
     (testAbility * precise6equilibrium4Multiplier) *
@@ -212,7 +212,7 @@ function overloadAndBerserker(
         berserkMultiplier * damagePerLevelP6E4 // all boosts expect prayer affect abilityDamageBoostEq4
     )
   );
-  console.log(`\tBerserker berserk turmoil max hit (Eq4): ${turmoilHit}`);
+  console.log(`\tBerserker berserk turmoil max hit (P6E4): ${turmoilHit}`);
   result.berserkerBerserkMaxHitP6E4Turmoil = turmoilHit;
 
   const malevolenceHit = Math.floor(
@@ -224,7 +224,7 @@ function overloadAndBerserker(
     )
   );
   console.log(
-    `\tBerserker berserk malevolence max hit (Eq4): ${malevolenceHit}`
+    `\tBerserker berserk malevolence max hit (P6E4): ${malevolenceHit}`
   );
   result.berserkerBerserkMaxHitP6E4Malevolence = malevolenceHit;
 
