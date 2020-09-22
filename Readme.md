@@ -46,30 +46,33 @@ Actual: 3577
 	Main-hand: 2.5*99 + 864*1 + 196
 	Off-hand: 1.25*99 + 432*1 + 0.5*196
 	Ability multiplier with P6E4 1.8254799999999998
+Damage per level
+	Expected:  5.1136 7.8688
+	Actual:  5.1136 7.8688
 --------
 Damage with None (+0) : 1960
-	Ability damage gets +0
+	Ability damage gets (P6E4) +0
 	Max hit: 3684
 	Max hit (P6E4): 3577
 	Berserk max hit (P6E4): 7154
 	Berserk Turmoil max hit (P6E4): 7869
 	Berserk Malevolence max hit (P6E4): 8012
 Damage with Overload (+17) : 2025
-	Ability damage gets +136
+	Ability damage gets (P6E4) +136
 	Max hit: 3943
 	Max hit (P6E4): 3832
 	Berserk max hit (P6E4): 7664
 	Berserk Turmoil max hit (P6E4): 8430
 	Berserk Malevolence max hit (P6E4): 8583
 Damage with Supreme overload (+19) : 2032
-	Ability damage gets +152
+	Ability damage gets (P6E4) +152
 	Max hit: 3972
 	Max hit (P6E4): 3861
 	Berserk max hit (P6E4): 7722
 	Berserk Turmoil max hit (P6E4): 8494
 	Berserk Malevolence max hit (P6E4): 8648
 Damage with Elder overload (+21) : 2040
-	Ability damage gets +168
+	Ability damage gets (P6E4) +168
 	Max hit: 4003
 	Max hit (P6E4): 3891
 	Berserk max hit (P6E4): 7782
@@ -79,51 +82,51 @@ Damage with Elder overload (+21) : 2040
 Off-hand: Off-hand drygore mace
 Damage with Berserker aura and None (level 108) : 1995
 	Ability damage gets +72
-	Ability damage with Eq4 gets +70.56
+	Ability damage with P6E4 gets +70.8192
 	Berserker Max hit: 4204
 	Max hit (Eq4): 4083
-	Berserker berserk max hit (Eq4): 7424
+	Berserker berserk max hit (Eq4): 7425
 	Berserker berserk turmoil max hit (Eq4): 8153
-	Berserker berserk malevolence max hit (Eq4): 8298
+	Berserker berserk malevolence max hit (Eq4): 8299
 --------
 Off-hand: Off-hand drygore mace
 Damage with Berserker aura and Overload (level 126) : 2062
 	Ability damage gets +216
-	Ability damage with Eq4 gets +211.68
+	Ability damage with P6E4 gets +212.4576
 	Berserker Max hit: 4501
-	Max hit (Eq4): 4373
-	Berserker berserk max hit (Eq4): 7951
-	Berserker berserk turmoil max hit (Eq4): 8704
-	Berserker berserk malevolence max hit (Eq4): 8855
+	Max hit (Eq4): 4374
+	Berserker berserk max hit (Eq4): 7953
+	Berserker berserk turmoil max hit (Eq4): 8706
+	Berserker berserk malevolence max hit (Eq4): 8856
 --------
 Off-hand: Off-hand drygore mace
 Damage with Berserker aura and Supreme overload (level 128) : 2070
 	Ability damage gets +232
-	Ability damage with Eq4 gets +227.36
+	Ability damage with P6E4 gets +228.1952
 	Berserker Max hit: 4535
-	Max hit (Eq4): 4406
-	Berserker berserk max hit (Eq4): 8012
-	Berserker berserk turmoil max hit (Eq4): 8767
-	Berserker berserk malevolence max hit (Eq4): 8919
+	Max hit (Eq4): 4407
+	Berserker berserk max hit (Eq4): 8013
+	Berserker berserk turmoil max hit (Eq4): 8769
+	Berserker berserk malevolence max hit (Eq4): 8920
 --------
 Off-hand: Off-hand drygore mace
 Damage with Berserker aura and Elder overload (level 130) : 2077
 	Ability damage gets +248
-	Ability damage with Eq4 gets +243.04
+	Ability damage with P6E4 gets +243.9328
 	Berserker Max hit: 4568
-	Max hit (Eq4): 4438
-	Berserker berserk max hit (Eq4): 8069
-	Berserker berserk turmoil max hit (Eq4): 8827
-	Berserker berserk malevolence max hit (Eq4): 8979
+	Max hit (Eq4): 4439
+	Berserker berserk max hit (Eq4): 8070
+	Berserker berserk turmoil max hit (Eq4): 8829
+	Berserker berserk malevolence max hit (Eq4): 8980
 --------
-┌──────────────────────────────────────────┬────────────────────┬─────────────────────┬───────────────────────────┬──────────────────────────────────────┬──────────────────────────────────┬─────────────────┬────────────────────┐
-│                 (index)                  │ abilityDamageBoost │ berserkerAuraDamage │ berserkerBerserkMaxHitEq4 │ berserkerBerserkMaxHitEq4Malevolence │ berserkerBerserkMaxHitEq4Turmoil │ berserkerMaxHit │ berserkerMaxHitEq4 │
-├──────────────────────────────────────────┼────────────────────┼─────────────────────┼───────────────────────────┼──────────────────────────────────────┼──────────────────────────────────┼─────────────────┼────────────────────┤
-│       Off-hand drygore mace - None       │         72         │        1995         │           7424            │                 8298                 │               8153               │      4204       │        4083        │
-│     Off-hand drygore mace - Overload     │        216         │        2062         │           7951            │                 8855                 │               8704               │      4501       │        4373        │
-│ Off-hand drygore mace - Supreme overload │        232         │        2070         │           8012            │                 8919                 │               8767               │      4535       │        4406        │
-│  Off-hand drygore mace - Elder overload  │        248         │        2077         │           8069            │                 8979                 │               8827               │      4568       │        4438        │
-└──────────────────────────────────────────┴────────────────────┴─────────────────────┴───────────────────────────┴──────────────────────────────────────┴──────────────────────────────────┴─────────────────┴────────────────────┘
+┌──────────────────────────────────────────┬────────────────┬─────────────────────┬────────────────────────────┬───────────────────────────────────────┬───────────────────────────────────┬─────────────────┬─────────────────────┐
+│                 (index)                  │ damagePerLevel │ berserkerAuraDamage │ berserkerBerserkMaxHitP6E4 │ berserkerBerserkMaxHitP6E4Malevolence │ berserkerBerserkMaxHitP6E4Turmoil │ berserkerMaxHit │ berserkerMaxHitP6E4 │
+├──────────────────────────────────────────┼────────────────┼─────────────────────┼────────────────────────────┼───────────────────────────────────────┼───────────────────────────────────┼─────────────────┼─────────────────────┤
+│       Off-hand drygore mace - None       │       72       │        1995         │            7425            │                 8299                  │               8153                │      4204       │        4083         │
+│     Off-hand drygore mace - Overload     │      216       │        2062         │            7953            │                 8856                  │               8706                │      4501       │        4374         │
+│ Off-hand drygore mace - Supreme overload │      232       │        2070         │            8013            │                 8920                  │               8769                │      4535       │        4407         │
+│  Off-hand drygore mace - Elder overload  │      248       │        2077         │            8070            │                 8980                  │               8829                │      4568       │        4439         │
+└──────────────────────────────────────────┴────────────────┴─────────────────────┴────────────────────────────┴───────────────────────────────────────┴───────────────────────────────────┴─────────────────┴─────────────────────┘
 
 ```
 
