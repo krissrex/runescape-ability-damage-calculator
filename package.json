@@ -1,0 +1,23 @@
+{
+  "name": "ability-damage",
+  "version": "1.0.0",
+  "description": "Runescape ability damage calculator",
+  "main": "out/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [
+    "rs3",
+    "runescape",
+    "calculator",
+    "ability-damage",
+    "ability",
+    "damage"
+  ],
+  "author": "Kristian Rekstad",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "3.4.3"
+  }
+}

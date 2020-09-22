@@ -1,0 +1,77 @@
+{
+  "$reference": "https://runescape.wiki/w/Armoury",
+  "weapons": {
+    "Drygore mace": {
+      "damage": 864,
+      "speed": "fastest",
+      "type": "oneHand",
+      "slot": "mainHand"
+    },
+    "Off-hand drygore mace": {
+      "damage": 432,
+      "speed": "fastest",
+      "type": "oneHand",
+      "slot": "offHand"
+    },
+    "Drygore rapier": {
+      "damage": 1102.5,
+      "speed": "fast",
+      "type": "oneHand",
+      "slot": "mainHand"
+    },
+    "Off-hand drygore rapier": {
+      "damage": 551.2,
+      "speed": "fast",
+      "type": "oneHand",
+      "slot": "offHand"
+    },
+    "Noxious scythe": {
+      "damage": 2011.5,
+      "speed": "average",
+      "type": "twoHand",
+      "slot": "mainHand"
+    }
+  },
+
+  "prayers": {
+    "turmoil": {
+      "damageBoost": 0.1
+    },
+    "malevolence": {
+      "damageBoost": 0.12
+    }
+  },
+
+  "armour": {
+    "Bandos helmet": {
+      "strength": 17.7
+    },
+    "Masterwork platebody": {
+      "strength": 34.8
+    },
+    "Masterwork platelegs": {
+      "strength": 29
+    },
+    "Masterwork boots": {
+      "strength": 14.5
+    },
+    "Bandos gloves": {
+      "strength": 11
+    },
+    "Max cape": {
+      "strength": 31.5
+    },
+    "Dragon rider amulet": {
+      "strength": 30.2
+    },
+    "Luck of the dwarves": {
+      "strength": 17.3
+    },
+    "Asylum surgeon's ring": {
+      "strength": 21
+    },
+    "Illuminated book of balance": {
+      "strength": 7
+    }
+  }
+}

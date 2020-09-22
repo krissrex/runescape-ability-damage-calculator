@@ -1,0 +1,26 @@
+{
+  "speedModifiers": {
+    "fastest": 1,
+    "fast": 0.783673,
+    "average": 0.644295
+  },
+
+  "damageFormula": {
+    "$reference": "https://runescape.wiki/w/Ability_damage",
+    "melee": {
+      "mainHand": "2.5*{strengthLevel} + {mainHand.damage}*{mainHand.speed} + {strengthBonus}",
+      "offHand": "1.25*{strengthLevel} + {offHand.damage}*{offHand.speed} + 0.5*{strengthBonus}",
+      "twoHand": ""
+    },
+    "magic": {
+      "mainHand": "",
+      "offHand": "",
+      "twoHand": ""
+    },
+    "ranged": {
+      "mainHand": "",
+      "offHand": "",
+      "twoHand": ""
+    }
+  }
+}
